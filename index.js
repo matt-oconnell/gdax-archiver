@@ -1,23 +1,21 @@
-const express = require('express')
+#!/usr/bin/env node
+
 const axios = require('axios')
 const mysql = require('mysql')
 const creds = require('./creds.js')
 
-const app = express()
 const coins = ['btc', 'ltc', 'eth']
 
-app.get('/', async (req, res) => {
+async function run() {
   let msg = ''
   for (let coin of coins) {
     let { data } = await axios.get(`https://api.gdax.com/products/${coin.toUpperCase()}-USD/candles/1m`)
     msg = await store(data, coin)
   }
-  res.send(msg)
-})
+  console.log(msg)
+}
 
-app.listen(3000, async() => {
-  console.log('Booted');
-})
+run()
 
 const getMaxTimestamp = (connection, coin) => new Promise((res, rej) => {
   const selector = 'MAX(timestamp)'

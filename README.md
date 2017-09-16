@@ -15,5 +15,3 @@ module.exports = {
 ```
 
 `node index.js`
-
-visit http://localhost:3000/
